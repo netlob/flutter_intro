@@ -183,6 +183,8 @@ class Intro extends InheritedWidget {
     BorderRadiusGeometry? borderRadiusGeometry,
     Widget? child,
     VoidCallback? onTap,
+    GestureDragEndCallback? onPanEnd,
+    GestureDragUpdateCallback? onPanUpdate,
   }) {
     final decoration = BoxDecoration(
       color: Colors.white,
@@ -197,6 +199,8 @@ class Intro extends InheritedWidget {
       right: right,
       child: GestureDetector(
         onTap: onTap,
+        onPanEnd: onPanEnd,
+        onPanUpdate: onPanUpdate,
         child: AnimatedContainer(
           padding: padding,
           decoration: decoration,
@@ -409,6 +413,8 @@ class Intro extends InheritedWidget {
                                 );
                               }
                             : null,
+                        // onPanEnd: _currentStep?.onHighlightWidgetPanEnd,
+                        // onPanUpdate: _currentStep?.onHighlightWidgetPanUpdate,
                       ),
                       _widgetBuilder(
                         width: _widgetSize.width,
@@ -418,6 +424,8 @@ class Intro extends InheritedWidget {
                         borderRadiusGeometry:
                             _currentStep?.borderRadius ?? borderRadius,
                         onTap: _currentStep?.onHighlightWidgetTap,
+                        onPanEnd: _currentStep?.onHighlightWidgetPanEnd,
+                        onPanUpdate: _currentStep?.onHighlightWidgetPanUpdate,
                       ),
                     ],
                   ),

@@ -40,6 +40,14 @@ class IntroStepBuilder extends StatefulWidget {
   /// Optional nullable [VoidCallback] for when highlighted widget is tapped
   final VoidCallback? onHighlightWidgetTap;
 
+  /// Optional nullable [GestureDragEndCallback] for when highlighted widget is
+  /// panned end
+  final GestureDragEndCallback? onHighlightWidgetPanEnd;
+
+  /// Optional nullable [GestureDragUpdateCallback] for when highlighted widget is
+  /// panned update
+  final GestureDragUpdateCallback? onHighlightWidgetPanUpdate;
+
   /// [Widget] [borderRadius] of the selected area, the default is
   /// [BorderRadius.all(Radius.circular(4))]
   final BorderRadiusGeometry? borderRadius;
@@ -67,6 +75,8 @@ class IntroStepBuilder extends StatefulWidget {
     this.getOverlayPosition,
     this.borderRadius,
     this.onHighlightWidgetTap,
+    this.onHighlightWidgetPanEnd,
+    this.onHighlightWidgetPanUpdate,
     this.padding,
     this.onWidgetLoad,
     this.group = 'default',
