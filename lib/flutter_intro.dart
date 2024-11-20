@@ -132,6 +132,8 @@ class Intro extends InheritedWidget {
       _currentStep != null &&
       _steps.firstWhereOrNull((e) => e.order < _currentStep!.order) != null;
 
+  IntroStepBuilder? get currentStep => _currentStep;
+
   /// Return nullable [IntroStepBuilder] for the next step in the sequence as
   /// compared to [_currentStep].
   IntroStepBuilder? _getNextStep({
