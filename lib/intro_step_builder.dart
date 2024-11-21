@@ -64,6 +64,9 @@ class IntroStepBuilder extends StatefulWidget {
   /// is add to context)
   final VoidCallback? onWidgetLoad;
 
+  /// Additional keys to highlight
+  final List<GlobalKey> additionalHighlightKeys;
+
   /// Constructor for [IntroStepBuilder] widget, requiring [order] and [builder]
   /// but with further customization available
   const IntroStepBuilder({
@@ -80,6 +83,7 @@ class IntroStepBuilder extends StatefulWidget {
     this.padding,
     this.onWidgetLoad,
     this.group = 'default',
+    this.additionalHighlightKeys = const [],
   }) : assert(text != null || overlayBuilder != null);
 
   GlobalKey get _key => GlobalStringKey('${group}_$order');

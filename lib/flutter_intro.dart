@@ -17,6 +17,7 @@ part 'overlay_position.dart';
 part 'step_widget_builder.dart';
 part 'step_widget_params.dart';
 part 'throttling.dart';
+part 'highlight_config.dart';
 
 /// Class to encompass groups of [IntroStepBuilder] widgets and provide overall
 /// settings for their behavior and display. Use at top level of widget tree for
@@ -33,6 +34,7 @@ class Intro extends InheritedWidget {
   static Widget _overlayWidget = const SizedBox.shrink();
   static IntroStepBuilder? _currentStep;
   static Size _widgetSize = const Size(0, 0);
+  static List<_HighlightConfig> _additionalHighlights = [];
   static Offset _widgetOffset = const Offset(0, 0);
 
   static const EdgeInsets defaultPadding = EdgeInsets.all(8);
@@ -260,6 +262,27 @@ class Intro extends InheritedWidget {
       );
     }
 
+    if (step.additionalHighlightKeys != null) {
+      for (final key in step.additionalHighlightKeys!) {
+        final context = key.currentContext;
+        if (context != null) {
+          final RenderBox box = context.findRenderObject() as RenderBox;
+          _additionalHighlights.add(_HighlightConfig(
+            size: Size(
+              box.size.width + (step.padding?.horizontal ?? padding.horizontal),
+              box.size.height + (step.padding?.vertical ?? padding.vertical),
+            ),
+            offset: Offset(
+              box.localToGlobal(Offset.zero).dx -
+                  (step.padding?.left ?? padding.left),
+              box.localToGlobal(Offset.zero).dy -
+                  (step.padding?.top ?? padding.top),
+            ),
+          ));
+        }
+      }
+    }
+
     RenderBox renderBox = currentContext.findRenderObject() as RenderBox;
 
     _screenSize = MediaQuery.of(_context!).size;
@@ -429,6 +452,18 @@ class Intro extends InheritedWidget {
                         onPanEnd: _currentStep?.onHighlightWidgetPanEnd,
                         onPanUpdate: _currentStep?.onHighlightWidgetPanUpdate,
                       ),
+                      ..._additionalHighlights.map((config) => _widgetBuilder(
+                            width: config.size.width,
+                            height: config.size.height,
+                            left: config.offset.dx,
+                            top: config.offset.dy,
+                            borderRadiusGeometry:
+                                _currentStep?.borderRadius ?? borderRadius,
+                            onTap: _currentStep?.onHighlightWidgetTap,
+                            onPanEnd: _currentStep?.onHighlightWidgetPanEnd,
+                            onPanUpdate:
+                                _currentStep?.onHighlightWidgetPanUpdate,
+                          )),
                     ],
                   ),
                 ),
